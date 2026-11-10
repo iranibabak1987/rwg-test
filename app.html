@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>RWG</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
 <style>
 :root{--ink:#1B1B2F;--mute:#6C6C85;--line:#E6E3F2;--r:#EF4B52;--g:#25B358;--card:rgba(255,255,255,.88);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
@@ -1838,7 +1840,7 @@ if(pat==0){a=.35;b=.2;c=.45}else if(pat==1){a=.1;b=.15;c=.75}else if(pat==2){a=.
 a+=(rnd()-.5)*.1;c+=(rnd()-.5)*.1;var rr=Math.round(tot*a),gg=Math.round(tot*c),ww=Math.max(1,tot-rr-gg),g2=pk(BG),cm=[];
 if(i%3==0)for(var j=0;j<2+Math.floor(rnd()*2);j++){var col=pk(['r','w','g']),cu=pk(all100);if(cu!=u)cm.push({u:cu,c:col,t:pk(CM[col])})}
 DP.push({id:1000+i,u:u,ar:pk(AR),bg:'linear-gradient(160deg,'+g2[0]+','+g2[1]+')',t:r[3][k],r:rr,w:ww,g:gg,cm:cm,demo:1,an:i%4==1})});
-var on=true;try{on=localStorage.getItem('rwg_demo')!='0'}catch(e){}
+var on=false;try{on=localStorage.getItem('rwg_demo')=='1'}catch(e){}
 var demoApply=window.demoApply=function(){var i;for(i=P.length-1;i>=0;i--)if(P[i].demo)P.splice(i,1);Object.keys(U).forEach(function(k){if(U[k].demo){delete U[k];delete FOL[k]}});
 if(on){Object.keys(DU).forEach(function(k){U[k]=DU[k]});DP.forEach(function(p){P.push(p)})}all()};
 window.demoT=function(){on=!on;try{localStorage.setItem('rwg_demo',on?'1':'0')}catch(e){}demoApply();openSettings()};
@@ -2148,8 +2150,8 @@ rn()})();
 </style>
 <script>
 (function(){
-var BT={store:['Store','فروشگاه'],creator:['Creator / Blogger','سازنده / بلاگر'],service:['Service','خدمات'],org:['Organization / Company','سازمان / شرکت'],creative:['Creative / Freelancer','خلاق / فریلنسر'],teacher:['Teacher / Class','معلم / کلاس']},
-CATS=[['all','All','همه'],['store','Store','فروشگاه'],['service','Service','خدمات'],['org','Company','شرکت'],['creative','Creative','خلاقیت'],['creator','Creators','سازندگان'],['teacher','Classes','کلاس']],cat='all',
+var BT={store:['Store','فروشگاه'],creator:['Creator / Blogger','سازنده / بلاگر'],service:['Service','خدمات'],org:['Organization / Company','سازمان / شرکت'],creative:['Creative / Freelancer','خلاق / فریلنسر'],teacher:['Teacher / Class','معلم / کلاس'],other:['Other profession','سایر مشاغل']},
+CATS=[['all','All','همه'],['store','Store','فروشگاه'],['service','Service','خدمات'],['org','Company','شرکت'],['creative','Creative','خلاقیت'],['creator','Creators','سازندگان'],['teacher','Classes','کلاس'],['other','Other','سایر']],cat='all',
 D0=[['mehdi_shop',"Mehdi's Corner Shop",'store'],['giulia_chef',"Giulia's Kitchen",'store'],['pedro_shop','Pedro Bakery','store'],['ayse_shop','Ayse Boutique','store'],['salma_chef','Salma Street Food','store'],['jorge_farm','Jorge Farm Market','store'],['behrouz_mech','Behrouz Garage','service'],['shirin_doc','Family Clinic','service'],['yusuf_build','Yusuf Builders','service'],['diego_sport','Diego Fitness Club','service'],['neda_biz','Neda Studio','org'],['felix_biz','Felix Software','org'],['nika_news','Nika Local News','org'],['maryam_art','Maryam Art Corner','creative'],['zara_art','Zara Prints','creative'],['pablo_art','Pablo Draws','creator'],['hana_dev','Hana Codes','creator'],['mei_teach',"Ms. Mei's Math Class",'teacher'],['elena_teach',"Elena's Language Lab",'teacher']],
 MYB=null,APPS=[],RES={},DC={},BLOCK=/\.(exe|apk|bat|cmd|sh|msi|js|jar|zip|rar|dmg|scr|vbs)$/i;
 function T(t){return X(BT[t][0],BT[t][1])}
@@ -2172,7 +2174,7 @@ var PUBX=['pdf','png','jpg','jpeg','webp'],RESX=['pdf','doc','docx','ppt','pptx'
 window.rb=function(){var e=document.getElementById('s-business');if(!e)return;var L2=[];if(MYB)L2.push(MYB);D0.forEach(function(b){if(U[b[0]])L2.push(det(b))});
 var rows=L2.filter(function(b){return cat=='all'||b.type==cat}).map(function(b){var k=b.demo?b.u:'__me',p=b.demo?P.filter(function(x){return x.u==b.u})[0]:null,tot=p?(p.r+p.w+p.g)||1:1;
 return '<div class="bzr"><button class="bza" style="background:linear-gradient(135deg,'+(b.demo?U[b.u].c:'#8E5BD8')+',#3E2A8C)" onclick="openBiz(\''+k+'\')">'+esc(b.name)+'</button><button class="bzc" onclick="openBiz(\''+k+'\')">'+(p?'<div class="bzi" style="background:'+p.bg+'"></div>':'')+'<div class="bzt"><small>'+T(b.type)+'</small> '+(b.demo?'<small style="background:#F0EEF8;color:#7a7a99">DEMO</small>':'<small class="bzv2">'+X('Yours','مال شما')+'</small>')+'<p>'+esc(p?p.t:b.desc)+'</p>'+(p?'<div class="bzv"><i style="background:#EF4B52;flex:'+p.r/tot+'"></i><i style="background:#fff;border:1px solid #ddd;flex:'+p.w/tot+'"></i><i style="background:#25B358;flex:'+p.g/tot+'"></i></div>':'')+'</div></button></div>'}).join('');
-e.innerHTML='<div class="bzcta">🏪 <b>'+X('Business','کسب‌وکار')+'</b><br>'+(MYB?X('Your business page is live.','صفحهٔ کسب‌وکار شما فعال است.')+' <button class="bzb p" onclick="openBiz(\'__me\')">'+X('Manage','مدیریت')+'</button>':X('Stores, companies, creatives and teachers can create a business page.','فروشگاه‌ها، شرکت‌ها، خلاق‌ها و معلم‌ها می‌توانند صفحهٔ کسب‌وکار بسازند.')+' <button class="bzb p" onclick="bzNew()">＋ '+X('Create','ساخت')+'</button>')+(APPS.length?' <button class="bzb" onclick="bzApps()">'+X('My applications','درخواست‌های من')+' ('+APPS.length+')</button>':'')+'</div><div class="bzchips">'+CATS.map(function(c){return '<button class="'+(c[0]==cat?'on':'')+'" onclick="bzCat(\''+c[0]+'\')">'+X(c[1],c[2])+'</button>'}).join('')+'</div>'+(rows||'<div class="note">'+X('No businesses yet.','هنوز کسب‌وکاری وجود ندارد.')+'</div>')};
+e.innerHTML='<div class="bzcta">🏪 <b>'+X('Business','کسب‌وکار')+'</b><br>'+(MYB?X('Your business page is live.','صفحهٔ کسب‌وکار شما فعال است.')+' <button class="bzb p" onclick="openBiz(\'__me\')">'+X('Manage','مدیریت')+'</button>':X('Stores, companies, creatives, teachers… anyone with a job or a skill, from any field, can create a business page.','فروشگاه‌ها، شرکت‌ها، خلاق‌ها، معلم‌ها و … هر کسی با هر شغل و مهارتی، از هر قشری، می‌تواند صفحهٔ کسب‌وکار بسازد.')+' <button class="bzb p" onclick="bzNew()">＋ '+X('Create','ساخت')+'</button>')+(APPS.length?' <button class="bzb" onclick="bzApps()">'+X('My applications','درخواست‌های من')+' ('+APPS.length+')</button>':'')+'</div><div class="bzchips">'+CATS.map(function(c){return '<button class="'+(c[0]==cat?'on':'')+'" onclick="bzCat(\''+c[0]+'\')">'+X(c[1],c[2])+'</button>'}).join('')+'</div>'+(rows||'<div class="note">'+X('No businesses yet.','هنوز کسب‌وکاری وجود ندارد.')+'</div>')};
 window.bzCat=function(c){cat=c;rb()};
 /* detail page */
 window.openBiz=function(k){var b=getB(k);if(!b)return;var own=k=='__me',p=b.demo?P.filter(function(x){return x.u==b.u})[0]:null,h='';
@@ -2341,11 +2343,45 @@ function df(t){return new Date(t).toLocaleDateString(loc(),{weekday:'short',mont
 function dleft(t){var d=Math.ceil((t-Date.now())/D1);return d<=0?X('Today','امروز'):d==1?X('Tomorrow','فردا'):X('in '+d+' days',d+' روز دیگر')}
 /* ---------- special days ---------- */
 var EV=[['bf','Black Friday','بلک فرایدی',new Date(2026,10,27),'🛍'],['cm','Cyber Monday','سایبر منـدی',new Date(2026,10,30),'💻'],['yl','Yalda night','شب یلدا',new Date(2026,11,21),'🍉'],['xm','Christmas','کریسمس',new Date(2026,11,25),'🎄'],['ny','New Year','سال نو میلادی',new Date(2027,0,1),'🎆'],['nw','Nowruz','نوروز',new Date(2027,2,21),'🌱'],['ef','Eid al-Fitr (approx.)','عید فطر (تقریبی)',new Date(2027,2,10),'🌙'],['ea','Eid al-Adha (approx.)','عید قربان (تقریبی)',new Date(2027,4,17),'🐑']];
-function evs(){return EV.filter(function(e){return e[3].getTime()+D1>Date.now()}).sort(function(a,b){return a[3]-b[3]})}
+function calOk(c){try{return new Intl.DateTimeFormat('en-u-ca-'+c).resolvedOptions().calendar===c}catch(e){return false}}
+function byCal(c,mo,dy){if(!calOk(c))return null;var f=new Intl.DateTimeFormat('en-u-ca-'+c,{month:'numeric',day:'numeric'}),d=new Date();d.setHours(12,0,0,0);
+ for(var i=0;i<420;i++){var m=null,dd=null;f.formatToParts(d).forEach(function(x){if(x.type==='month')m=x.value;if(x.type==='day')dd=x.value});
+  if(String(m)===String(mo)&&String(dd)===String(dy))return new Date(d.getFullYear(),d.getMonth(),d.getDate());d=new Date(d.getTime()+D1)}return null}
+function nthWd(y,mo,wd,n){var d=new Date(y,mo,1),c=0;while(true){if(d.getDay()===wd){c++;if(c===n)return d}d=new Date(y,mo,d.getDate()+1)}}
+function nxt(fn){var y=new Date().getFullYear(),d=fn(y);if(d.getTime()+D1<Date.now())d=fn(y+1);return d}
+function ccAuto(){var tz='';try{tz=Intl.DateTimeFormat().resolvedOptions().timeZone||''}catch(e){}
+ var m={'Asia/Tehran':'IR','Asia/Shanghai':'CN','Asia/Chongqing':'CN','Asia/Harbin':'CN','Asia/Urumqi':'CN','Asia/Hong_Kong':'CN','Asia/Macau':'CN','Europe/Istanbul':'TR','Asia/Riyadh':'AR','Asia/Dubai':'AR','Asia/Baghdad':'AR','Asia/Kuwait':'AR','Asia/Qatar':'AR','Africa/Cairo':'AR','Asia/Amman':'AR','Asia/Beirut':'AR','Asia/Muscat':'AR','Asia/Bahrain':'AR'};
+ if(m[tz])return m[tz];if(/^America\//.test(tz))return 'US';return {fa:'IR',zh:'CN',tr:'TR',ar:'AR'}[L]||''}
+function cc(){var c=null;try{c=localStorage.getItem('rwg_cc')}catch(e){}return (c&&c!=='auto')?c:ccAuto()}
+function allEv(){var c=cc(),o=[],ir=c==='IR',cn=c==='CN',tr=c==='TR',ar=c==='AR',us=c==='US';
+ function add(k,en,fa,d,ic){if(d)o.push([k,en,fa,d,ic])}
+ function fx(mo,dy){return nxt(function(y){return new Date(y,mo,dy)})}
+ function nw(mo,wd,n){return nxt(function(y){return nthWd(y,mo,wd,n)})}
+ var bf=nw(10,4+1,4);add('bf','Black Friday','بلک فرایدی',bf,'🛍');add('cm','Cyber Monday','سایبر منـدی',new Date(bf.getFullYear(),bf.getMonth(),bf.getDate()+3),'💻');
+ add('xm','Christmas','کریسمس',fx(11,25),'🎄');add('ny','New Year','سال نو میلادی',fx(0,1),'🎆');
+ add('wd','International Women’s Day','روز جهانی زن',fx(2,8),'💐');
+ if(!ir&&!ar)add('vd','Valentine’s Day','ولنتاین',fx(1,14),'💝');
+ if(!ir&&!ar)add('hw','Halloween','هالووین',fx(9,31),'🎃');
+ if(ir)add('md','Mother’s & Women’s Day (approx.)','روز مادر و زن (تقریبی)',byCal('islamic-civil',6,20),'🌷');
+ else if(ar)add('md','Mother’s Day','روز مادر',fx(2,21),'🌷');
+ else add('md','Mother’s Day','روز مادر',nw(4,0,2),'🌷');
+ if(ir)add('fd','Father’s & Men’s Day (approx.)','روز پدر و مرد (تقریبی)',byCal('islamic-civil',7,13),'👔');
+ else add('fd','Father’s Day','روز پدر',nw(5,0,3),'👔');
+ if(ir){add('nw','Nowruz','نوروز',byCal('persian',1,1)||fx(2,21),'🌱');add('yl','Yalda night','شب یلدا',byCal('persian',9,30)||fx(11,21),'🍉');
+  add('sz','Sizdah Bedar','سیزده‌به‌در',byCal('persian',1,13),'🧺');add('sp','Sepandarmazgan (Iranian Love Day)','سپندارمذگان (روز عشق ایرانی)',byCal('persian',12,5),'💚');add('td','Teacher’s Day','روز معلم',byCal('persian',2,12),'📚')}
+ if(ir||tr||ar){add('ef','Eid al-Fitr (approx.)','عید فطر (تقریبی)',byCal('islamic-civil',10,1),'🌙');add('ea','Eid al-Adha (approx.)','عید قربان (تقریبی)',byCal('islamic-civil',12,10),'🐑')}
+ if(ir)add('gh','Eid al-Ghadir (approx.)','عید غدیر (تقریبی)',byCal('islamic-civil',12,18),'🕌');
+ if(ar)add('rm','Ramadan begins (approx.)','آغاز رمضان (تقریبی)',byCal('islamic-civil',9,1),'🌙');
+ if(tr){add('tc','Children’s Day','روز کودک ترکیه',fx(3,23),'🧒');add('tz','Republic Day','روز جمهوری',fx(9,29),'🇹🇷')}
+ if(cn){add('cn','Chinese New Year','سال نو چینی',byCal('chinese',1,1),'🧧');add('ln','Lantern Festival','جشن فانوس',byCal('chinese',1,15),'🏮');add('db','Dragon Boat Festival','جشن قایق اژدها',byCal('chinese',5,5),'🐉');add('qx','Qixi (Chinese Valentine’s)','چیشی (ولنتاین چینی)',byCal('chinese',7,7),'💞');add('ma','Mid-Autumn Festival','جشن میان‌پاییز',byCal('chinese',8,15),'🥮');add('cd','Children’s Day','روز کودک',fx(5,1),'🧒');add('sd','Singles’ Day (11.11)','روز مجردها (۱۱.۱۱)',fx(10,11),'🛒')}
+ if(us){add('th','Thanksgiving','تعطیلات شکرگزاری',nw(10,4,4),'🦃');add('id','Independence Day','روز استقلال',fx(6,4),'🎇')}
+ return o}
+window.rwgCc=function(v){try{localStorage.setItem('rwg_cc',v)}catch(e){}if(window.rb)rb();if(window.openSettings)openSettings()};
+function evs(){return allEv().filter(function(e){return e[3].getTime()+D1>Date.now()}).sort(function(a,b){return a[3]-b[3]})}
 window.bxDays=function(){ovl(topB(X('Special days','روزهای مهم'))+'<div class="scr"><div class="bzd"><div class="note" style="font-size:12px">'+X('Shoppers plan around these days. Start your offer a few days early. Lunar dates are approximate.','مشتری‌ها برای این روزها برنامه‌ریزی می‌کنند. چند روز زودتر پیشنهادت را شروع کن. تاریخ‌های قمری تقریبی‌اند.')+'</div><div class="bzs">'+evs().map(function(e){return '<div class="bzf"><span>'+e[4]+' <b>'+X(e[1],e[2])+'</b><br><small>'+df(e[3])+' · '+dleft(e[3])+'</small></span><button class="bzb p" onclick="bxSeason(\''+e[0]+'\')">＋ '+X('Plan offer','برنامه پیشنهاد')+'</button></div>'}).join('')+'</div></div></div>')};
-window.bxSeason=function(key){var b=gb('__me');if(!b||b.type!='store'){toast(X('Create a store page first','اول صفحهٔ فروشگاه بساز'));return}var e=EV.filter(function(x){return x[0]==key})[0];
+window.bxSeason=function(key){var b=gb('__me');if(!b||b.type!='store'){toast(X('Create a store page first','اول صفحهٔ فروشگاه بساز'));return}var e=allEv().filter(function(x){return x[0]==key})[0];
 sheetShow('<h3>'+e[4]+' '+X(e[1],e[2])+'<button onclick="closeC()" aria-label="Close">✕</button></h3><div class="clist bzfm"><input id="sv_t" maxlength="40" value="'+esc(e[1].replace(/ \(.*/,''))+' '+X('offer','پیشنهاد')+'"><input id="sv_c" maxlength="14" placeholder="'+X('Discount code (optional)','کد تخفیف (اختیاری)')+'"><input id="sv_p" type="number" min="1" max="90" placeholder="'+X('Percent off (1–90)','درصد تخفیف (۱ تا ۹۰)')+'"><select id="sv_l"><option value="3">'+X('Start 3 days before','شروع ۳ روز قبل')+'</option><option value="5" selected>'+X('Start 5 days before','شروع ۵ روز قبل')+'</option><option value="7">'+X('Start 7 days before','شروع ۷ روز قبل')+'</option><option value="0">'+X('Start on the day','شروع در همان روز')+'</option></select><small>'+X('Ends the day after the event.','یک روز بعد از مناسبت تمام می‌شود.')+'</small><button class="bzb p" onclick="bxSeasonMk(\''+key+'\')">'+X('Create','ساخت')+'</button></div>')};
-window.bxSeasonMk=function(key){var e=EV.filter(function(x){return x[0]==key})[0],t=(document.getElementById('sv_t').value||'').trim(),v=parseInt(document.getElementById('sv_p').value,10),l=+document.getElementById('sv_l').value;
+window.bxSeasonMk=function(key){var e=allEv().filter(function(x){return x[0]==key})[0],t=(document.getElementById('sv_t').value||'').trim(),v=parseInt(document.getElementById('sv_p').value,10),l=+document.getElementById('sv_l').value;
 if(!t||!(v>=1&&v<=90)){toast(X('Enter a title and 1–90%','عنوان و درصد ۱ تا ۹۰ را وارد کنید'));return}var x=ex(gb('__me'));x.offers=x.offers||[];
 x.offers.push({t:t,code:(document.getElementById('sv_c').value||'').trim().toUpperCase().replace(/[^A-Z0-9_-]/g,''),pct:v,from:e[3].getTime()-l*D1,until:e[3].getTime()+D1,ev:key});closeC();closeOv();openBiz('__me')};
 /* ---------- appointments / online visits ---------- */
@@ -2877,7 +2913,7 @@ async function loadStories(){
  var r=await RSB.from('stories').select('id,author_id,media_url,caption,meta,expires_at,created_at,profiles!stories_author_id_fkey(username)').gt('expires_at',new Date().toISOString()).order('created_at',{ascending:false}).limit(100);
  if(r.error){dbg('v2 stories error: '+r.error.message);return}
  if(sv&&!sv.hidden)return;
- for(var i=SS.length-1;i>=0;i--)if(SS[i][6]==='srv')SS.splice(i,1);
+ for(var i=SS.length-1;i>=0;i--)if(SS[i][6]==='srv'||SS[i].length===3)SS.splice(i,1);
  var mine=[],n=0;
  (r.data||[]).forEach(function(x){var un=x.profiles?x.profiles.username:'unknown';if(un!==ME.u&&!U[un])U[un]={c:colFor(un),bio:''};if(U[un]&&un!==ME.u)U[un].id=x.author_id;var m=x.meta||{},e=[un,(un===ME.u?ME.c:(U[un]&&U[un].c))||colFor(un),x.caption||'',m.vid?null:x.media_url,m.ov||[],m.fl||'none','srv',new Date(x.expires_at).getTime(),'sv'+x.id,undefined,x.id,m.vid?x.media_url:undefined];n++;
   if(x.author_id===SBU.id)mine.push(e);else SS.push(e)});
@@ -3270,7 +3306,7 @@ async function loadPosts(){
   arr.forEach(function(np){if(writing[np.id])return;var mv=null;votes.forEach(function(q){if(q.post_id===np.sid&&q.user_id===SBU.id)mv=KM[q.value]});if(mv)mine[np.id]=mv;else delete mine[np.id];saved[np.id]=!!svs[np.sid]});
   var sig=JSON.stringify(arr.map(function(x){return [x.id,x.r,x.w,x.g,x.cm.length,x.t,x.place||'',x.alt||'',(x.people||[]).join(','),x.nodl|0,x.nocm|0,x.nosh|0]}));
   for(var i=P.length-1;i>=0;i--)if(P[i].real)P.splice(i,1);
-  arr=arr.filter(function(np){return !(np.exp&&np.exp<Date.now()&&np.u!==ME.u)});P.unshift.apply(P,arr);dbg('v2 · server posts: '+arr.length+' · video: '+arr.filter(function(x){return x.vid}).length);loadStories();loadFollows();loadDMs();loadLives();
+  arr=arr.filter(function(np){return !(np.exp&&np.exp<Date.now()&&np.u!==ME.u)});for(var qi=P.length-1;qi>=0;qi--)if(P[qi].id<=6&&!P[qi].real&&!P[qi].demo)P.splice(qi,1);P.unshift.apply(P,arr);dbg('v2 · server posts: '+arr.length+' · video: '+arr.filter(function(x){return x.vid}).length);loadStories();loadFollows();loadDMs();loadLives();
   if(sig!==lastSig){lastSig=sig;if(overlayOpen())dirty=true;else refreshUI()}
  }finally{busy=false}}
 window.rwgLoad=loadPosts;
@@ -3460,7 +3496,7 @@ function q(v){return esc(v||'').replace(/"/g,'&quot;')}
 function actsH(){var pp=(D.ppl||[]).length;
  return '<div class="edacts">'+(ME.minor?'':'<button class="act'+(D.place?' on':'')+'" onclick="rwgAct(\'pl\')">'+IC.pin+'<span>'+(D.place?esc(D.place).slice(0,14):X('Location','مکان'))+'</span></button>')
  +(window.rwgFindUsers&&D.mode!=='story'?'<button class="act'+(pp?' on':'')+'" onclick="rwgAct(\'pp\')">'+IC.users+'<span>'+(pp?X('Tagged ','تگ‌شده ')+pp:X('Tag people','تگ افراد'))+'</span></button>':'')
- +(D.img?'<button class="act'+(D.alt?' on':'')+'" onclick="rwgAct(\'al\')">'+IC.alt+'<span>'+(D.alt?X('Described','توضیح داده شد'):X('Describe','توضیح عکس'))+'</span></button>':'')+(D.mode!=='story'&&window.rwgLifeSheet?'<button class="act'+(D.life?' on':'')+'" onclick="rwgLifeSheet()">⏳ <span>'+(D.life?window.rwgLifeName(D.life):X('Keep forever','ماندن همیشگی'))+'</span></button>':'')+'</div>'}
+ +(D.img?'<button class="act'+(D.alt?' on':'')+'" onclick="rwgAct(\'al\')">'+IC.alt+'<span>'+(D.alt?X('Described','توضیح داده شد'):X('Describe','توضیح عکس'))+'</span></button>':'')+(D.mode!=='story'&&window.rwgLifeSheet?'<button class="act'+(D.life?' on':'')+'" onclick="rwgLifeSheet()">⏳ <span>'+(D.life?window.rwgLifeName(D.life):X('Keep forever','ماندن همیشگی'))+'</span></button>':'')+(D.mode!=='story'&&window.rwgHtSheet?'<button class="act'+((D.htags&&D.htags.length)?' on':'')+'" onclick="rwgHtSheet()"># <span>'+((D.htags&&D.htags.length)?(D.htags.length+' '):'')+X('Hashtags','هشتگ')+'</span></button>':'')+'</div>'}
 var _edR2=edR;edR=function(){_edR2();var ed=document.getElementById('ed');if(!ed||typeof D==='undefined'||!D)return;
  ed.classList.toggle('hasph',!!(D.img||(D.imgs&&D.imgs.length)));
  var old=ed.querySelector('.edmeta');if(old)old.remove();var bar=ed.querySelector('.edpubbar');if(!bar||D.mode==='story')return;
@@ -3610,5 +3646,80 @@ var _pubG=pub;pub=function(){
 .psug2 small{opacity:.6;padding:4px 6px}
 .msgpost{display:block;margin-top:8px;padding:7px 12px;border-radius:12px;background:linear-gradient(135deg,#8E5BD8,#EF4B52);color:#fff;font-weight:800;font-size:13px}
 </style>
+
+<style>
+/* RTL: the "more" dots and the close arrow no longer overlap in full-screen posts */
+#pg .pgdots{inset-inline-end:auto!important;right:12px!important;left:auto!important;top:calc(10px + env(safe-area-inset-top,0px))!important}
+#pg .pgx{inset-inline-end:auto!important;left:12px!important;right:auto!important}
+/* nicer dark screens instead of flat black */
+#ed,#rl,#lv{background:radial-gradient(120% 70% at 15% 0%,#3b2070 0%,#1b1236 48%,#0d0d14 100%)!important}
+#pg{background:linear-gradient(#1b1236,#0a0a12)!important}
+/* gentle polish */
+header{background:linear-gradient(120deg,rgba(255,255,255,.92),rgba(244,236,255,.9))!important;box-shadow:0 4px 18px rgba(110,70,200,.14)}
+header b{background:linear-gradient(90deg,#6A3CD8,#EF4B52);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:.5px}
+nav{box-shadow:0 -8px 28px rgba(90,60,170,.16);border-radius:22px 22px 0 0}
+.post{border-radius:24px;box-shadow:0 10px 30px rgba(90,60,170,.18)}
+.acts button{padding:7px 12px;border-radius:14px;background:rgba(106,60,216,.08);color:#4b3f7a}
+.strip span{height:11px;border-radius:6px}
+.stories{border-radius:0 0 22px 22px;box-shadow:0 6px 18px rgba(110,70,200,.1)}
+.send{background:linear-gradient(135deg,#8E5BD8,#EF4B52);box-shadow:0 6px 16px rgba(239,75,82,.28)}
+.btn{box-shadow:0 2px 8px rgba(90,60,170,.1)}
+.row,.tog,.sel-row{box-shadow:0 2px 10px rgba(90,60,170,.08)}
+.tile{border-radius:14px;box-shadow:0 4px 12px rgba(0,0,0,.18)}
+.leaflet-container{font:inherit}
+</style>
+<script>
+(function(){
+/* ---- hashtags: the # is fixed, the user only types the word ---- */
+function esc2(v){return esc(v)}
+window.rwgHtSheet=function(){D.htags=D.htags||[];
+ sheetShow('<h3># '+X('Hashtags','هشتگ‌ها')+'<button onclick="closeC();edR()" aria-label="Close">✕</button></h3><div class="clist"><div class="pchips2">'+D.htags.map(function(t,i){return '<span>#'+esc2(t)+' <b onclick="rwgHtDel('+i+')">×</b></span>'}).join('')+'</div><div style="display:flex;align-items:center;gap:8px"><span style="font-size:26px;font-weight:800;color:#8E5BD8">#</span><input id="ht_i" class="inp" style="flex:1" maxlength="40" autocomplete="off" placeholder="'+X('Type a word, then space or Add','یک کلمه بنویس، بعد فاصله یا افزودن')+'" oninput="rwgHtIn(this)" onkeydown="if(event.key===\'Enter\'){event.preventDefault();rwgHtAdd()}"><button class="btn" onclick="rwgHtAdd()">'+X('Add','افزودن')+'</button></div><div class="note" style="text-align:start">'+X('No need to type #. Up to 10 hashtags.','لازم نیست # بنویسی. حداکثر ۱۰ هشتگ.')+'</div><button class="send" style="width:100%;margin-top:6px" onclick="closeC();edR()">'+X('Done','تأیید')+'</button></div>');
+ var i=document.getElementById('ht_i');if(i)setTimeout(function(){i.focus()},80)};
+window.rwgHtIn=function(el){if(/[\s,،#]$/.test(el.value))rwgHtAdd()};
+window.rwgHtAdd=function(){var i=document.getElementById('ht_i');if(!i)return;D.htags=D.htags||[];
+ (i.value||'').split(/[\s,،#]+/).forEach(function(w){w=w.replace(/[^\p{L}\p{N}_\u200c]/gu,'').toLowerCase().slice(0,40);if(w&&D.htags.length<10&&D.htags.indexOf(w)<0)D.htags.push(w)});
+ rwgHtSheet()};
+window.rwgHtDel=function(i){D.htags.splice(i,1);rwgHtSheet()};
+var _pubH=pub;pub=function(){
+ if(typeof D!=='undefined'&&D&&D.mode!=='story'&&D.htags&&D.htags.length){D.cap=((D.cap||'')+' '+D.htags.map(function(t){return '#'+t}).join(' ')).trim();D.htags=[]}
+ _pubH()};
+
+/* ---- location: a real map, with manual search or your current position (only if you ask) ---- */
+var MP=null,MK=null;
+function lf(){return window.leaflet||null}
+function mpName(r){var a=r&&r.address||{},p=[a.suburb||a.neighbourhood||a.city_district||'',a.city||a.town||a.village||a.county||''].filter(Boolean);
+ if(!p.length&&r&&r.display_name)p=r.display_name.split(',').slice(0,2).map(function(x){return x.trim()});
+ return p.filter(function(x,i,arr){return arr.indexOf(x)===i}).join(', ').slice(0,80)}
+function mpPin(lat,lng,rev){var l=lf();if(!l||!MP)return;
+ if(MK)MK.setLatLng([lat,lng]);else MK=l.marker([lat,lng],{icon:l.divIcon({html:'<div style="font-size:28px;line-height:28px;transform:translate(-50%,-100%)">📍</div>',className:'',iconSize:[0,0]})}).addTo(MP);
+ if(rev)fetch('https://nominatim.openstreetmap.org/reverse?format=jsonv2&zoom=16&addressdetails=1&accept-language='+encodeURIComponent(L)+'&lat='+lat+'&lon='+lng).then(function(r){return r.json()}).then(function(r){var n=mpName(r),i=document.getElementById('sh_pl');if(i&&n)i.value=n}).catch(function(){})}
+function mpInit(){var box=document.getElementById('mpbox'),l=lf();if(!box||!l)return;box.innerHTML='';
+ if(MP){try{MP.remove()}catch(e){}}MK=null;
+ MP=l.map(box).setView([25,30],2);
+ l.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'© OpenStreetMap'}).addTo(MP);
+ MP.on('click',function(e){mpPin(e.latlng.lat,e.latlng.lng,true)})}
+window.rwgMapSheet=function(){
+ sheetShow('<h3>📍 '+X('Location','مکان')+'<button onclick="rwgMapClose()" aria-label="Close">✕</button></h3><div class="clist"><div id="mpbox" style="height:230px;border-radius:14px;overflow:hidden;background:#e8e4f4;display:grid;place-items:center;color:#6C6C85;text-align:center;padding:10px">'+(lf()?'':X('The map did not load. Type the place name below.','نقشه بارگذاری نشد. نام مکان را پایین بنویس.'))+'</div><div style="display:flex;gap:8px;margin-top:8px"><input id="mp_q" class="inp" style="flex:1" placeholder="'+X('Search a place','جستجوی مکان')+'" onkeydown="if(event.key===\'Enter\')rwgMapSearch()"><button class="btn" onclick="rwgMapSearch()" aria-label="Search">🔍</button></div><div id="mp_res" style="margin-top:6px"></div><button class="btn" style="width:100%;margin-top:8px" onclick="rwgMapGeo()">📍 '+X('Use my current location','استفاده از مکان فعلی من')+'</button><input id="sh_pl" class="inp" style="width:100%;margin-top:8px" maxlength="80" placeholder="'+X('Or type the place name','یا نام مکان را بنویس')+'" value="'+esc(D.place||'')+'"><div class="note" style="text-align:start">'+X('Only the place name is saved, not your exact coordinates. Tap the map to pick a spot.','فقط نام مکان ذخیره می‌شود، نه مختصات دقیق تو. روی نقشه بزن تا نقطه را انتخاب کنی.')+'</div><button class="send" style="width:100%;margin-top:6px" onclick="rwgMapSave()">'+X('Done','تأیید')+'</button>'+(D.place?'<button class="lnk" style="width:100%" onclick="D.place=\'\';rwgMapClose();edR()">'+X('Remove location','حذف مکان')+'</button>':'')+'</div>');
+ if(lf())setTimeout(mpInit,60)};
+window.rwgMapSearch=function(){var q=(document.getElementById('mp_q')||{}).value||'';q=q.trim();if(!q)return;
+ fetch('https://nominatim.openstreetmap.org/search?format=jsonv2&limit=5&addressdetails=1&accept-language='+encodeURIComponent(L)+'&q='+encodeURIComponent(q)).then(function(r){return r.json()}).then(function(a){
+  var box=document.getElementById('mp_res');if(!box)return;window.__mpr=a;
+  box.innerHTML=a.length?a.map(function(r,i){return '<button class="row" style="margin:3px 0;width:100%;padding:8px 10px" onclick="rwgMapPick('+i+')">'+esc(String(r.display_name).slice(0,80))+'</button>'}).join(''):'<div class="note">'+X('No results.','نتیجه‌ای نبود.')+'</div>'}).catch(function(){toast(X('Search failed. Check your connection.','جستجو نشد. اینترنت را بررسی کن.'))})};
+window.rwgMapPick=function(i){var r=window.__mpr&&window.__mpr[i];if(!r)return;var lat=+r.lat,lng=+r.lon;if(MP){MP.setView([lat,lng],14);mpPin(lat,lng,false)}
+ var n=mpName(r)||String(r.display_name).split(',')[0],el=document.getElementById('sh_pl');if(el)el.value=n.slice(0,80);var b=document.getElementById('mp_res');if(b)b.innerHTML=''};
+window.rwgMapGeo=function(){if(!navigator.geolocation){toast(X('Location is not available on this device.','مکان در این دستگاه در دسترس نیست.'));return}
+ navigator.geolocation.getCurrentPosition(function(p){var lat=p.coords.latitude,lng=p.coords.longitude;if(MP){MP.setView([lat,lng],15);mpPin(lat,lng,true)}else{fetch('https://nominatim.openstreetmap.org/reverse?format=jsonv2&zoom=16&addressdetails=1&accept-language='+encodeURIComponent(L)+'&lat='+lat+'&lon='+lng).then(function(r){return r.json()}).then(function(r){var n=mpName(r),i=document.getElementById('sh_pl');if(i&&n)i.value=n}).catch(function(){})}},
+  function(){toast(X('Could not get your location. Allow it in the browser, or type the place.','مکان گرفته نشد. در مرورگر اجازه بده، یا نام مکان را بنویس.'))},{enableHighAccuracy:false,timeout:10000,maximumAge:60000})};
+window.rwgMapSave=function(){var el=document.getElementById('sh_pl');D.place=el?el.value.trim().slice(0,80):D.place;rwgMapClose();edR()};
+window.rwgMapClose=function(){if(MP){try{MP.remove()}catch(e){}MP=null;MK=null}closeC()};
+var _ra=window.rwgAct;window.rwgAct=function(k){if(k==='pl'){rwgMapSheet();return}if(_ra)_ra(k)};
+
+/* ---- Settings: country for the special days ---- */
+var _osC=openSettings;openSettings=function(){_osC();var b=document.querySelector('button[onclick="rwgLinks()"]')||document.querySelector('#ov2 button[onclick="chgPw()"]');
+ if(!b||document.getElementById('cc_sel'))return;var cur='auto';try{cur=localStorage.getItem('rwg_cc')||'auto'}catch(e){}
+ var o=[['auto',X('Automatic','خودکار')],['IR',X('Iran','ایران')],['CN',X('China','چین')],['TR',X('Türkiye','ترکیه')],['AR',X('Arab countries','کشورهای عربی')],['US',X('United States','آمریکا')],['none',X('Other / global only','سایر / فقط جهانی')]];
+ b.insertAdjacentHTML('beforebegin','<div class="sel-row"><span>'+X('Country (for special days)','کشور (برای روزهای مهم)')+'</span><select id="cc_sel" onchange="rwgCc(this.value)">'+o.map(function(x){return '<option value="'+x[0]+'"'+(cur==x[0]?' selected':'')+'>'+x[1]+'</option>'}).join('')+'</select></div>')};
+})();
+</script>
 </body>
 </html>
